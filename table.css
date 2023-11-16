@@ -1,0 +1,97 @@
+*{
+
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,500,500i,600,600i,700,700i,800|Open+Sans:400,400i,600,600i,700,700i,800&display=swap);
+:root {
+  /* --font-default: "Open Sans",  "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
+  --font-default: "Open Sans",   sans-serif;
+  --font-primary: "Montserrat", sans-serif;
+  --font-secondary: "Poppins", sans-serif;
+}
+
+/* Colors */
+:root {
+  --color-default: #222222;
+  --color-primary: #139864;
+  --color-secondary: #F9D310;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-primary);
+  /* font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 20px; */
+}
+
+h1{
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 28px;
+    line-height: normal;
+    /* margin: 10px 0; */
+    color: var(--color-primary);
+}
+
+
+body {
+    /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+    font-family: var(--font-defaut);
+    color: var(--color-default);
+  
+}
+.header{
+
+/* border: 1px solid red; */
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 15px 0;
+height: 100vh;
+}
+
+.header1{
+    /* border: 1px solid #000; */
+    width: 95%;
+box-shadow: 0 1px 3px #0000001a, 0 1px 2px #0000000f;
+display: flex;
+flex-direction: column;
+align-items: center;
+padding-top: 10px;
+
+
+}
+
+.table {
+    border-spacing: 0px !important;
+    border-collapse: collapse;
+    font-size: 25px;
+    text-transform:capitalize;
+
+
+}
+
+@media (max-width: 767px) {
+.table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #ddd;
+    -webkit-overflow-scrolling: touch;
+}
+}
