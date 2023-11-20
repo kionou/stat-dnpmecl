@@ -1,0 +1,32 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,500,500i,600,600i,700,700i,800|Open+Sans:400,400i,600,600i,700,700i,800&display=swap);
+:root {
+  --font-default: "Open Sans",   sans-serif;
+  --font-primary: "Montserrat", sans-serif;
+  --font-secondary: "Poppins", sans-serif;
+}
+
+/* Colors */
+:root {
+  --color-default: #222222;
+  --color-primary: #139864;
+  --color-secondary: #F9D310;
+}
+
+
+h1 {
+  font-family: var(--font-primary);
+}
+
+h1{
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 28px;
+    line-height: normal;
+    color: var(--color-primary);
+}

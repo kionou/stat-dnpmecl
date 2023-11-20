@@ -1,5 +1,4 @@
 *{
-
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -7,7 +6,6 @@
 
 @import url(https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,500,500i,600,600i,700,700i,800|Open+Sans:400,400i,600,600i,700,700i,800&display=swap);
 :root {
-  /* --font-default: "Open Sans",  "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
   --font-default: "Open Sans",   sans-serif;
   --font-primary: "Montserrat", sans-serif;
   --font-secondary: "Poppins", sans-serif;
@@ -21,16 +19,8 @@
 }
 
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1 {
   font-family: var(--font-primary);
-  /* font-size: 30px;
-  font-weight: 700;
-  margin-bottom: 20px; */
 }
 
 h1{
@@ -38,13 +28,11 @@ h1{
     text-transform: uppercase;
     font-size: 28px;
     line-height: normal;
-    /* margin: 10px 0; */
     color: var(--color-primary);
 }
 
 
 body {
-    /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
     font-size: 14px;
     line-height: 1.42857143;
     color: #333;
@@ -54,8 +42,6 @@ body {
   
 }
 .header{
-
-/* border: 1px solid red; */
 display: flex;
 align-items: center;
 justify-content: center;
@@ -64,15 +50,12 @@ height: 100vh;
 }
 
 .header1{
-    /* border: 1px solid #000; */
-    width: 95%;
+width: 95%;
 box-shadow: 0 1px 3px #0000001a, 0 1px 2px #0000000f;
 display: flex;
 flex-direction: column;
 align-items: center;
 padding-top: 10px;
-
-
 }
 
 .table {
@@ -80,8 +63,6 @@ padding-top: 10px;
     border-collapse: collapse;
     font-size: 25px;
     text-transform:capitalize;
-
-
 }
 
 @media (max-width: 767px) {
