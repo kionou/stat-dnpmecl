@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="test.css">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/cylinder.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+    <title>Mpme Emploi && Mpme Formel Imformel</title>
+    <style>
+*{
+
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+.home{
+
+border: 1px solid red;
+width: 100%;
+height: 98vh;
+display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+
+.home .home1{
+    border: 1px solid rgb(0, 132, 255);
+width: 50%;
+/* height: 100px; */
+
+}
+.home .home2{
+    border: 1px solid rgb(0, 255, 42);
+width: 50%;
+height: 100px;
+
+}
+
+.highcharts-figure{
+
+/* border: 1px solid red; */
+height: 100vh;
+
+}
+
+#container{
+
+/* border: 1px solid blue; */
+height: 100%;
+}
+    </style>
+</head>
+<body>
+    <div class="home">
+        <div class="home1">
+
+            <figure class="highcharts-figure">
+                <div id="mpme-formel"></div>
+               
+            </figure>
+        </div>
+        <div class="home2"></div>
+    </div>
+    <figure class="highcharts-figure" >
+        <div id="container" ></div>
+       
+    </figure>
+    <script >
+        (async () => {
+
+    let accessToken = '';
+
+    async function login(email, password) {
+            const apiUrl = "https://cors-proxy.fringe.zone/https://mpme-guinee.com/bd/public/api/login";
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    console.log('Connexion réussie :', data);
+                    accessToken = data.data.access_token; // Stocker le token
+
+                    console.log('Connexion réussie :', accessToken);
+                    // Faire quelque chose avec la réponse si nécessaire
+                } else {
+                    console.error('Erreur de connexion :', data);
+                    // Gérer l'erreur si nécessaire
+                }
+
+                return data;
+            } catch (error) {
+                console.error('Erreur lors de la requête de connexion :', error);
+            }
+        }
+
+// Utilisation de la fonction login avec les informations d'identification
+ await login("mamadou@gmail.com", "azertyui");
+
+async function fetchDataWithToken(endpoint) {
+    try {
+        const apiUrl = `https://cors-proxy.fringe.zone/https://mpme-guinee.com/bd/public/api/${endpoint}`;
+        const apiUrlWithParams = new URL(apiUrl);
+        apiUrlWithParams.searchParams.append('with_relation', true);
+
+        const response = await fetch(apiUrl, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}` // Inclure le token dans les en-têtes
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la requête : ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('responsess', data.data);
+        return data.data;
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+    }
+}
+
+// Utilisation de fetchDataWithToken pour l'API /api/mpme/statistics/mpme-formel-informel
+async function fetchMpmeStatistics() {
+    try {
+        const apiData = await fetchDataWithToken('mpme/statistics/total-emplois-salaries-femme');
+        // Faites quelque chose avec les données récupérées
+        console.log('Données de statistiques MPME:', apiData);
+        return apiData
+
+        // ... (le reste de votre code)
+    } catch (error) {
+        console.error("Erreur lors de la récupération des statistiques MPME :", error);
+    }
+}
+
+async function createChart() {
+    const mpmeData = await  fetchMpmeStatistics();
+    console.log('Données de statistiques MPMEss:', mpmeData);
+
+    // Utiliser les données récupérées pour créer le graphique
+    Highcharts.chart('mpme-formel', {
+        chart: {
+            type: 'pie',
+            options3d: {
+                enabled: true,
+                alpha: 45
+            }
+        },
+        title: {
+            text: 'Répartition des MPME par catégorie',
+            align: 'left'
+        },
+        subtitle: {
+            text: '3D donut in Highcharts',
+            align: 'left'
+        },
+        plotOptions: {
+            pie: {
+                innerSize: 100,
+                depth: 45,
+                dataLabels: {
+                    enabled: true, // Activer l'affichage des étiquettes de données
+                    format: '{point.name}: {point.y}', // Format de l'étiquette
+                }
+            }
+        },
+         colors: ['#FF6347', '#87CEEB'],
+        series: [{
+            name: 'MPME',
+            
+            
+            data: [
+                ['Emplois', mpmeData.emplois],
+                ['Salariés Femme', mpmeData.salaries_femme],
+            ]
+        }]
+    });
+}
+
+// Appeler la fonction createChart pour initialiser le graphique
+createChart();
+
+})();
+
+    </script>
+</body>
+</html>
