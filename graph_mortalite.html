@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="test.css">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/cylinder.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+    <title>Mpme Emploi && Mpme Formel Imformel</title>
+    <style>
+*{
+
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+
+
+
+.home{
+
+/* border: 1px solid red; */
+width: 100%;
+height: 98vh;
+display: flex;
+justify-content: center;
+flex-direction: row;
+align-items: center;
+}
+
+.home .home1{
+/* border: 1px solid rgb(0, 132, 255); */
+width: 50%;
+
+
+}
+.home .home2{
+/* border: 1px solid rgb(0, 255, 42); */
+width: 50%;
+
+}
+
+.highcharts-figure{
+
+height: 95vh;
+
+}
+
+#mpme-mortalite-precendent ,#mpme-mortalite-encours {
+
+height: 90%;
+}
+
+text{
+
+font-size:12px !important;
+}
+
+.subtitle-text{
+    font-size: 20px !important;
+    color: black;
+    text-align: center;
+    font-family: monospace;
+}
+
+.subtitle-text .annnee{
+
+    color: red !important;
+}
+
+.subtitle-text1{
+    font-size: 20px !important;
+    color: black;
+    text-align: center;
+    font-family: monospace;
+}
+
+.subtitle-text1 .annnee1{
+
+    color: red !important;
+}
+
+    </style>
+</head>
+<body>
+    <div class="home">
+        <div class="home1">
+            <figure class="highcharts-figure">
+                <div id="mpme-mortalite-precendent"></div>
+                <div class="subtitle-text1"></div>
+            </figure>
+        </div>
+        <div class="home2">
+            <figure class="highcharts-figure">
+                <div id="mpme-mortalite-encours"></div>
+                <div class="subtitle-text"></div>
+
+            </figure>
+        </div>
+
+       
+    </div>
+   
+    <script >
+        (async () => {
+
+    let accessToken = '';
+
+    async function login(email, password) {
+            const apiUrl = "https://cors-proxy.fringe.zone/https://mpme-guinee.com/bd/public/api/login";
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    console.log('Connexion réussie :', data);
+                    accessToken = data.data.access_token; // Stocker le token
+
+                    console.log('Connexion réussie :', accessToken);
+                    // Faire quelque chose avec la réponse si nécessaire
+                } else {
+                    console.error('Erreur de connexion :', data);
+                    // Gérer l'erreur si nécessaire
+                }
+
+                return data;
+            } catch (error) {
+                console.error('Erreur lors de la requête de connexion :', error);
+            }
+        }
+
+// Utilisation de la fonction login avec les informations d'identification
+ await login("mamadou@gmail.com", "azertyui");
+
+async function fetchDataWithToken(endpoint , an) {
+    try {
+        const apiUrl = `https://cors-proxy.fringe.zone/https://mpme-guinee.com/bd/public/api/${endpoint}`;
+        const apiUrlWithParams = new URL(apiUrl);
+        apiUrlWithParams.searchParams.append('annee', an);
+
+        const response = await fetch(apiUrlWithParams, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}` // Inclure le token dans les en-têtes
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la requête : ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('responsess', data.data);
+        return data.data;
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+    }
+}
+//  fetchDataWithToken('mpme/statistics/mpme-indicateur-lies-mortalite',2022);
+
+// Utilisation de fetchDataWithToken pour l'API /api/mpme/statistics/mpme-formel-informel
+async function fetchMpmeStatistics(an) {
+    try {
+        const apiData = await fetchDataWithToken('mpme/statistics/mpme-indicateur-lies-mortalite',an);
+        // Faites quelque chose avec les données récupérées
+        console.log('Données de statistiques MPME:', apiData);
+        return apiData
+
+        // ... (le reste de votre code)
+    } catch (error) {
+        console.error("Erreur lors de la récupération des statistiques MPME :", error);
+    }
+}
+
+async function createChart1() {
+                // Obtenez automatiquement l'année en cours
+            const anneeEnCours = new Date().getFullYear();
+           
+// Utilisez fetchDataWithToken pour obtenir les données pour l'année en cours
+const statsDataEnCours = await fetchMpmeStatistics(anneeEnCours);
+console.log('Données de statistiques MPMEss pour l\'année en cours:', statsDataEnCours);
+
+// Calculez le pourcentage de mortalité
+const percentMortaliteEnCours = parseFloat(statsDataEnCours.percent_mortalite);
+const msgEnCours = `Cette mortalité représente <span class="annnee"> ${percentMortaliteEnCours.toFixed(2)}%</span>  des entreprises créées en <span class="annnee"> ${anneeEnCours}</span>.`;
+document.querySelector('.subtitle-text').innerHTML = msgEnCours
+    // const percentMortalitePrecedent = parseFloat(statsDataPrecedent.percent_mortalite) * 100;
+
+
+
+                // Utiliser les données récupérées pour créer le graphique en forme de cylindre
+                Highcharts.chart('mpme-mortalite-encours', {
+                    chart: {
+                        type: 'cylinder',
+                        options3d: {
+                            enabled: true,
+                            alpha: 0,
+                            beta: 0,
+                            viewDistance: 25,
+                            depth: 40
+                        }
+                    },
+                    title: {
+                        text: `Statistiques sur la mortalité des entreprises réées en ${anneeEnCours}`
+                    },
+                   
+                    xAxis: {
+                        categories: ['Nombre d\'entreprises', 'Nombre d\'entreprises mortes']
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Nombre d\'entreprises'
+                        },
+                        tickInterval: 1000
+                    },
+                    colors:  ['#FF6347', '#87CEEB', '#32CD32'],
+    
+                    plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y:,.0f}',
+                            style: {
+                                color: 'black'
+                            }
+                        },
+                        showInLegend: false
+                    }
+                },
+                    series: [{
+                        name: 'Statistiques',
+                        colorByPoint: true,
+                        data: [
+                            { name: 'Nombre d\'entreprises', y: statsDataEnCours.nbre_entreprise },
+                            { name: 'Nombre d\'entreprises mortes', y: statsDataEnCours.nbre_entreprise_morte },
+                        ]
+                    }],
+
+              
+                });
+
+            }
+
+async function createChart2() {
+           
+            const anneePrecedent = new Date().getFullYear()-1;
+            console.log('Données de statistiques MPMEss pour :',typeof(anneePrecedent) );
+
+            // Utilisez fetchDataWithToken pour obtenir les données pour l'année précédente
+const statsDataPrecedent = await fetchMpmeStatistics(anneePrecedent);
+console.log('Données de statistiques MPMEss pour l\'année précédente:', statsDataPrecedent);
+
+
+const percentMortaliteEnCours = parseFloat(statsDataPrecedent.percent_mortalite);
+const msgPrecedent = `Cette mortalité représente <span class="annnee1"> ${percentMortaliteEnCours.toFixed(2)}%</span>  des entreprises créées en <span class="annnee1"> ${anneePrecedent}</span>.`;
+document.querySelector('.subtitle-text1').innerHTML = msgPrecedent
+
+
+        
+                Highcharts.chart('mpme-mortalite-precendent', {
+                    chart: {
+                        type: 'cylinder',
+                        options3d: {
+                            enabled: true,
+                            alpha: 0,
+                            beta: 0,
+                            viewDistance: 25,
+                            depth: 23
+                        }
+                    },
+                    title: {
+                        text: `Statistiques sur la mortalité des entreprises réées en ${anneePrecedent}`
+                    },
+                    xAxis: {
+                         categories: ['Nombre d\'entreprises', 'Nombre d\'entreprises mortes']
+                       
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Nombre d\'entreprises'
+                        },
+                        tickInterval: 1000
+                    },
+                    colors:  ['#32CD32','#544FC5' ],
+                    plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y:,.0f}',
+                            style: {
+                                color: 'black'
+                            }
+                        },
+                        showInLegend: false
+                    }
+                },
+                    series: [{
+                        name: 'Statistiques',
+                        colorByPoint: true,
+                        data: [
+                            { name: 'Nombre d\'entreprises', y: statsDataPrecedent.nbre_entreprise },
+                            { name: 'Nombre d\'entreprises mortes', y: statsDataPrecedent.nbre_entreprise_morte },
+                        ]
+                    }]
+                });
+            }
+
+            // Appeler la fonction createChart pour initialiser le graphique
+            createChart1();
+            createChart2();
+
+
+
+})();
+
+    </script>
+</body>
+</html>

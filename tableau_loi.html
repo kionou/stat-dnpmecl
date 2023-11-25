@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="test.css">
+  
+
+
+    <title>Mpme Emploi && Mpme Formel Imformel</title>
+    <style>
+*{
+
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+:root {
+  --color-default: #222222;
+  --color-primary: #139864;
+  --color-secondary: #F9D310;
+}
+
+h1{
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 18px;
+    line-height: normal;
+    color: black;
+    text-align: center;
+    font-family: monospace;
+}
+.anneePrecedent h1 .annnee , .anneeEnCours h1 .annnees{
+
+color: red !important;
+}
+.home{
+
+border: 1px solid red;
+width: 100%;
+height: 98vh;
+display: flex;
+    justify-content: center;
+    flex-direction: row;
+    /* align-items: center; */
+}
+
+.home .home1{
+ border: 1px solid rgb(0, 132, 255);
+width: 50%;
+/* height: 100px; */
+display: flex;
+flex-direction: column;
+justify-content: space-evenly;
+padding: 5px;
+
+}
+.home .home11{
+ /* border: 1px solid rgb(255, 123, 0); */
+width: 100%;
+/* height: 100px; */
+
+}
+.home .home12{
+ /* border: 1px solid rgb(255, 0, 55); */
+width: 100%;
+/* height: 100px; */
+
+}
+.home .home2{
+    border: 1px solid rgb(0, 255, 42);
+width: 50%;
+/* height: 100px; */
+
+}
+
+.two-section {
+    position: relative;
+    /* min-height: 280px; */
+    width: 100%;
+    height: auto;
+    margin: 15px 0;
+    /* display: flex; */
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+    flex-direction: column;
+    justify-content: center;
+    /* background: aqua; */
+    /* align-items: center; */
+    padding: 20px ;
+
+}
+
+.table__body {
+    width: 100%;
+    max-height: calc(89% - 9.6rem);
+    overflow: auto;
+    overflow: overlay;
+    padding-bottom: 10px;
+}
+
+.table__body::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+.table__body::-webkit-scrollbar-thumb {
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.table__body:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+}
+
+table {
+    width: 100%;
+}
+
+table,
+th,
+td {
+    border-collapse: collapse;
+    padding: 10px;
+    /* text-align: center; */
+    font-size: 15px;
+}
+
+
+
+thead th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: var(--color-primary);
+    text-transform: capitalize;
+    color: white;
+    border: 1px solid var(--color-secondary);
+}
+
+
+
+tbody:nth-child(odd) tr:nth-child(odd) {
+    background-color: #0000000b;
+}
+
+tbody:nth-child(even) tr:nth-child(even) {
+    background-color: #0000000b;
+}
+
+
+tbody tr {
+    --delay: .1s;
+    transition: .5s ease-in-out var(--delay), background-color 0s;
+}
+
+tbody {
+    border: 1px solid var(--color-secondary);
+
+}
+
+tbody tr td,
+tbody tr td p,
+tbody tr td img {
+    transition: .2s ease-in-out;
+}
+
+
+td {
+    border: 1px solid var(--color-secondary);
+}
+
+
+@media (max-width: 1000px) {
+    td:not(:first-of-type) {
+        min-width: 10rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    table,
+    th,
+    td {
+        font-size: 12px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="home">
+        <div class="home1">
+            <div class="home11 anneePrecedent">
+                <div class="contenu d-flex justify-content-center align-items-center flex-wrap  w-100">
+                    <h1></h1>
+                    <div class="two-section">
+        
+                        <div class="table__body">
+                            <table>
+                                <thead>
+        
+                                    <tr>
+                                        <th>Nom de la Statistique</th>
+                                        <th> Valeur</th>
+                                       
+        
+                                    </tr>
+        
+                                </thead>
+                                <tbody>
+        
+                                    <!-- <tr >  
+                                        <td> Nombre mpme </td>
+                                        <td>1233   </td>
+                                    </tr>
+                                    <tr >  
+                                        <td> Nombre mpme RESPECTANT </td>
+                                        <td>1233   </td>
+                                    </tr>
+                                    <tr >  
+                                        <td> pourcentage </td>
+                                        <td>1233   </td>
+                                    </tr> -->
+        
+        
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="home12 anneeEnCours">
+                <div class="contenu d-flex justify-content-center align-items-center flex-wrap  w-100">
+                    <h1></h1>
+
+                    <div class="two-section">
+        
+        
+                        <div class="table__body">
+                            <table>
+                                <thead>
+        
+                                    <tr>
+                                        <th>Nom de la Statistique</th>
+                                        <th> Valeur</th>
+                                       
+        
+                                    </tr>
+        
+                                </thead>
+                                <tbody>
+        
+                                    <!-- <tr >  
+                                        <td> Nombre mpme </td>
+                                        <td>1233   </td>
+                                    </tr>
+                                    <tr >  
+                                        <td> Nombre mpme RESPECTANT </td>
+                                        <td>1233   </td>
+                                    </tr>
+                                    <tr >  
+                                        <td> pourcentage </td>
+                                        <td>1233   </td>
+                                    </tr> -->
+        
+        
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+        <div class="home2"></div>
+    </div>
+   
+    <script >
+        (async () => {
+
+    let accessToken = '';
+
+    async function login(email, password) {
+            const apiUrl = "https://cors-proxy.fringe.zone/https://mpme-guinee.com/bd/public/api/login";
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    console.log('Connexion réussie :', data);
+                    accessToken = data.data.access_token; // Stocker le token
+
+                    console.log('Connexion réussie :', accessToken);
+                    // Faire quelque chose avec la réponse si nécessaire
+                } else {
+                    console.error('Erreur de connexion :', data);
+                    // Gérer l'erreur si nécessaire
+                }
+
+                return data;
+            } catch (error) {
+                console.error('Erreur lors de la requête de connexion :', error);
+            }
+        }
+
+// Utilisation de la fonction login avec les informations d'identification
+ await login("mamadou@gmail.com", "azertyui");
+
+ async function fetchDataWithToken(endpoint , an) {
+    try {
+        const apiUrl = `https://cors-proxy.fringe.zone/https://mpme-guinee.com/bd/public/api/${endpoint}`;
+        const apiUrlWithParams = new URL(apiUrl);
+        apiUrlWithParams.searchParams.append('annee', an);
+
+        const response = await fetch(apiUrlWithParams, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}` // Inclure le token dans les en-têtes
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la requête : ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('responsess', data.data);
+        return data.data;
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+    }
+}
+
+
+
+// Utilisation de fetchDataWithToken pour l'API /api/mpme/statistics/mpme-formel-informel
+async function fetchMpmeStatistics(an) {
+    try {
+        const apiData = await fetchDataWithToken('mpme/indicateur-contenu-local/nombre-de-mpme/respectant-cette-loi',an);
+        // Faites quelque chose avec les données récupérées
+        console.log('Données de statistiques MPME:', apiData);
+        return apiData
+
+        // ... (le reste de votre code)
+    } catch (error) {
+        console.error("Erreur lors de la récupération des statistiques MPME :", error);
+    }
+}
+async function createTable(data, tableSelector) {
+                const tableBody = document.querySelector(`${tableSelector} .table__body tbody`);
+
+                tableBody.innerHTML = `
+                            <tr>
+                <td>Nombre total de PME</td>
+                <td>${data.nbre_mpme}</td>
+            </tr>
+            <tr>
+                <td>Nombre de PME respectant la loi sur le contenu local</td>
+                <td>${data.nbre_mpme_respectant}</td>
+            </tr>
+            <tr>
+                <td>Pourcentage de PME respectant la loi sur le contenu local</td>
+                <td>${data.percent_mpme}</td>
+            </tr>
+                `;
+            }
+
+async function createChart() {
+       // Obtenez automatiquement l'année en cours
+       const anneeEnCours = new Date().getFullYear();
+    const anneePrecedent = anneeEnCours - 1;
+
+                // Utilisez fetchDataWithToken pour obtenir les données pour l'année en cours
+                const statsDataEnCours = await fetchMpmeStatistics(anneeEnCours);
+                console.log('Données de statistiques MPMEss pour l\'année en cours:', statsDataEnCours);
+
+                // Utilisez fetchDataWithToken pour obtenir les données pour l'année précédente
+                const statsDataPrecedent = await fetchMpmeStatistics(anneePrecedent);
+                console.log('Données de statistiques MPMEss pour l\'année précédente:', statsDataPrecedent);
+
+                // Créez les tableaux avec les données respectives
+                await createTable(statsDataPrecedent, '.anneePrecedent');
+                await createTable(statsDataEnCours, '.anneeEnCours');
+
+                document.querySelector('.anneePrecedent h1').innerHTML = `Statistiques sur le Nombre de MPME Respectant la Loi sur le Contenu Local - en <span class="annnee"> ${anneePrecedent}</span>.`;
+
+                document.querySelector('.anneeEnCours h1').innerHTML = `Statistiques sur le Nombre de MPME Respectant la Loi sur le Contenu Local -  en <span class="annnees"> ${anneeEnCours}</span>.`;
+
+
+
+
+
+               
+
+}
+
+createChart()
+
+
+})();
+
+    </script>
+</body>
+</html>
