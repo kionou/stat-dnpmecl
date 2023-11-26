@@ -54,11 +54,11 @@ display: flex;
 
 .home .home1{
 
-width: 50%;
+width: 40%;
 /* height: 100px; */
 display: flex;
 flex-direction: column;
-justify-content: space-evenly;
+
 padding: 5px;
 
 }
@@ -76,7 +76,7 @@ width: 100%;
 }
 .home .home2{
    
-width: 50%;
+width: 60%;
 /* height: 100px; */
 padding: 10px 0;
 
@@ -358,7 +358,7 @@ td {
 // Utilisation de fetchDataWithToken pour l'API /api/mpme/statistics/mpme-formel-informel
 async function fetchMpmeStatistics(an) {
     try {
-        const apiData = await fetchDataWithToken('mpme/indicateur-contenu-local/nombre-de-mpme/respectant-cette-loi',an);
+        const apiData = await fetchDataWithToken('mpme/statistics/mpme-indicateur-gouvernance',an);
         // Faites quelque chose avec les données récupérées
         console.log('Données de statistiques MPME:', apiData);
         return apiData
@@ -391,22 +391,7 @@ async function createTable(data, tableSelector) {
                 `;
             }
 
-            async function fetchData() {
-    const apiUrl = "https://cors-proxy.fringe.zone/https://mpme-guinee.com/bd/public/api/mpme/statistics/total-emplois-salaries-femme";
-  try {
-      // Construction de l'URL avec les paramètres
-      const apiUrlWithParams = new URL(apiUrl);
-      apiUrlWithParams.searchParams.append('with_relation', true);
 
-      // Utilisation de fetch avec l'URL complète
-      const response = await fetch(apiUrlWithParams);
-      const data = await response.json();
-      console.log('responsedata', data);
-      return data.data; // Retourne uniquement la partie 'data' de la réponse
-  } catch (error) {
-      console.error("Erreur lors de la récupération des données :", error);
-  }
-}
 
 async function createChart() {
        // Obtenez automatiquement l'année en cours
@@ -417,23 +402,12 @@ async function createChart() {
                 const statsDataEnCours = await fetchMpmeStatistics(anneeEnCours);
                 console.log('Données de statistiques MPMEss pour l\'année en cours:', statsDataEnCours);
 
-                // Utilisez fetchDataWithToken pour obtenir les données pour l'année précédente
-                const statsDataPrecedent = await fetchMpmeStatistics(anneePrecedent);
-                console.log('Données de statistiques MPMEss pour l\'année précédente:', statsDataPrecedent);
-
-               
                 await createTable(statsDataEnCours, '.anneeEnCours');
-
-                
 
                 document.querySelector('.anneeEnCours h1').innerHTML = `Statistiques sur le Nombre de MPME Respectant la Loi sur le Contenu Local -  en <span class="annnees"> ${anneeEnCours}</span>.`;
 
-                const mpmeData = await  fetchData();
-    console.log('Données de statistiques MPMEss:', mpmeData);
-
-    const salariesHomme = mpmeData.emplois - mpmeData.salaries_femme;
     const totalEmploisParagraph = document.querySelector('.home2 p');
-    totalEmploisParagraph.innerHTML = `Le nombre total des salariés est de  <span class="annnee"> ${mpmeData.emplois}</span> personnes.`;
+    // totalEmploisParagraph.innerHTML = `Le nombre total des salariés est de  <span class="annnee"> ${mpmeData.emplois}</span> personnes.`;
 
     // Utiliser les données récupérées pour créer le graphique
     Highcharts.chart('mpme-emploi', {

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="test.css">
+    
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <title>Mpme par Secteur Activite</title>
+    <style>
+*{
+
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+.highcharts-figure{
+
+/* border: 1px solid red; */
+height: 90vh;
+
+}
+h1{
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 20px;
+    line-height: normal;
+    color: black;
+    text-align: center;
+    font-family: monospace;
+}
+
+.annnees  {
+
+color: red !important;
+}
+.totalMpmeMessage{
+
+   
+    font-size: 20px;
+    line-height: normal;
+    color: black;
+    text-align: center;
+    font-family: monospace;
+}
+
+#container{
+
+/* border: 1px solid blue; */
+height: 100%;
+}
+    </style>
+</head>
+<body>
+    <h1></h1>
+    <p class="totalMpmeMessage"></p>
+    <figure class="highcharts-figure" >
+        <div id="container" ></div>
+       
+    </figure>
+    <script >
+      (async () => {
+
+let accessToken = '';
+
+async function login(email, password) {
+        const apiUrl = "https://cors-proxy.fringe.zone/https://mpme-guinee.com/bd/public/api/login";
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log('Connexion réussie :', data);
+                accessToken = data.data.access_token; // Stocker le token
+
+                console.log('Connexion réussie :', accessToken);
+                // Faire quelque chose avec la réponse si nécessaire
+            } else {
+                console.error('Erreur de connexion :', data);
+                // Gérer l'erreur si nécessaire
+            }
+
+            return data;
+        } catch (error) {
+            console.error('Erreur lors de la requête de connexion :', error);
+        }
+    }
+
+// Utilisation de la fonction login avec les informations d'identification
+await login("mamadou@gmail.com", "azertyui");
+
+async function fetchDataWithToken(endpoint , an) {
+try {
+    const apiUrl = `https://cors-proxy.fringe.zone/https://mpme-guinee.com/bd/public/api/${endpoint}`;
+    const apiUrlWithParams = new URL(apiUrl);
+    apiUrlWithParams.searchParams.append('annee', an);
+
+    const response = await fetch(apiUrlWithParams, {
+        headers: {
+            'Authorization': `Bearer ${accessToken}` // Inclure le token dans les en-têtes
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(`Erreur lors de la requête : ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log('responsess', data.data);
+    return data.data;
+} catch (error) {
+    console.error("Erreur lors de la récupération des données :", error);
+}
+}
+
+
+// Utilisation de fetchDataWithToken pour l'API /api/mpme/statistics/mpme-formel-informel
+async function fetchMpmeStatistics(an) {
+try {
+    const apiData = await fetchDataWithToken('mpme/statistics/mpme-indicateur-gouvernance',an);
+    // Faites quelque chose avec les données récupérées
+    console.log('Données de statistiques MPME:', apiData);
+    return apiData
+
+    // ... (le reste de votre code)
+} catch (error) {
+    console.error("Erreur lors de la récupération des statistiques MPME :", error);
+}
+}
+function formatNumberWithSpaces(number) {
+return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
+
+
+
+async function createChart() {
+   // Obtenez automatiquement l'année en cours
+   const anneeEnCours = new Date().getFullYear();
+
+
+            // Utilisez fetchDataWithToken pour obtenir les données pour l'année en cours
+            const statsDataEnCours = await fetchMpmeStatistics(anneeEnCours);
+            console.log('Données de statistiques MPMEss pour l\'année en cours:', statsDataEnCours);
+             document.querySelector(' h1').innerHTML = `Répartition des Entreprises par Secteur d'Activité - <span class="annnees"> ${anneeEnCours}</span>.`;
+             document.querySelector('.totalMpmeMessage').innerHTML = `Nombre total des MPME : <span class="annnees"> ${formatNumberWithSpaces(statsDataEnCours.totalMpmes)} </span>.`;
+
+
+            
+    const secteurActiviteData = statsDataEnCours.nbre_entreprise_par_secteur;
+
+    const filteredData = secteurActiviteData.filter(item => item.secteur_activite !== null);
+
+const categories = filteredData.map(item => item.secteur_activite.NomSecteurActivite);
+const data = filteredData.map(item => item.nbre);
+
+const chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'container',
+            type: 'column',
+            options3d: {
+                enabled: true,
+                alpha: 15,
+                beta: 0,
+                depth: 40,
+                viewDistance: 25
+            }
+        },
+        xAxis: {
+            categories: categories
+        },
+        yAxis: {
+            title: {
+                enabled: false
+            },
+            min: 0,  // Définir la valeur minimale de l'axe Y
+             tickInterval: 1000,  // Définir l'intervalle entre les graduations
+          
+        },
+        
+        tooltip: {
+            headerFormat: '<b>{point.key}</b><br>',
+            pointFormat: 'Nombre d\'entreprises: {point.y}'
+        },
+        title: {
+            text: '',
+           
+        },
+       
+        legend: {
+            enabled: true
+        },
+        plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y:,.0f}',
+                            style: {
+                                color: 'black'
+                            }
+                        },
+                        showInLegend: false
+                    }
+                },
+        series: [{
+            data: data,
+            colorByPoint: true
+        }]
+    });
+
+
+    function showValues() {
+    const alphaValueElement = document.getElementById('alpha-value');
+    const betaValueElement = document.getElementById('beta-value');
+    const depthValueElement = document.getElementById('depth-value');
+
+    if (alphaValueElement && betaValueElement && depthValueElement) {
+        alphaValueElement.innerHTML = chart.options.chart.options3d.alpha;
+        betaValueElement.innerHTML = chart.options.chart.options3d.beta;
+        depthValueElement.innerHTML = chart.options.chart.options3d.depth;
+    }
+
+    // Activate the sliders
+    document.querySelectorAll('#sliders input').forEach(input => input.addEventListener('input', e => {
+        chart.options.chart.options3d[e.target.id] = parseFloat(e.target.value);
+        showValues();
+        chart.redraw(false);
+    }));
+}
+
+
+    showValues();
+
+}
+
+
+
+createChart()
+
+
+})();
+    </script>
+</body>
+</html>
