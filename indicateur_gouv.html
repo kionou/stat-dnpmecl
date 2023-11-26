@@ -226,46 +226,20 @@ td {
 </head>
 <body>
     <div class="home">
+
+
+        <div class="home2">
+            <h1>Répartition des Emplois par Genre dans les MPME</h1>
+            <figure class="highcharts-figure">
+                <div id="mpme-emploi"></div>
+               
+            </figure> 
+            <p></p>
+        </div>
+
         <div class="home1">
-            <div class="home11 anneePrecedent">
-                <div class="contenu d-flex justify-content-center align-items-center flex-wrap  w-100">
-                    <h1></h1>
-                    <div class="two-section">
-        
-                        <div class="table__body">
-                            <table>
-                                <thead>
-        
-                                    <tr>
-                                        <th>Indicateurs</th>
-                                        <th> Valeurs</th>
-                                       
-        
-                                    </tr>
-        
-                                </thead>
-                                <tbody>
-        
-                                    <!-- <tr >  
-                                        <td> Nombre mpme </td>
-                                        <td>1233   </td>
-                                    </tr>
-                                    <tr >  
-                                        <td> Nombre mpme RESPECTANT </td>
-                                        <td>1233   </td>
-                                    </tr>
-                                    <tr >  
-                                        <td> pourcentage </td>
-                                        <td>1233   </td>
-                                    </tr> -->
-        
-        
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
+
             <div class="home12 anneeEnCours">
                 <div class="contenu d-flex justify-content-center align-items-center flex-wrap  w-100">
                     <h1></h1>
@@ -310,14 +284,7 @@ td {
 
             
         </div>
-        <div class="home2">
-            <h1>Répartition des Emplois par Genre dans les MPME</h1>
-            <figure class="highcharts-figure">
-                <div id="mpme-emploi"></div>
-               
-            </figure> 
-            <p></p>
-        </div>
+
     </div>
    
     <script >
@@ -454,11 +421,10 @@ async function createChart() {
                 const statsDataPrecedent = await fetchMpmeStatistics(anneePrecedent);
                 console.log('Données de statistiques MPMEss pour l\'année précédente:', statsDataPrecedent);
 
-                // Créez les tableaux avec les données respectives
-                await createTable(statsDataPrecedent, '.anneePrecedent');
+               
                 await createTable(statsDataEnCours, '.anneeEnCours');
 
-                document.querySelector('.anneePrecedent h1').innerHTML = `Statistiques sur le Nombre de MPME Respectant la Loi sur le Contenu Local - en <span class="annnee"> ${anneePrecedent}</span>.`;
+                
 
                 document.querySelector('.anneeEnCours h1').innerHTML = `Statistiques sur le Nombre de MPME Respectant la Loi sur le Contenu Local -  en <span class="annnees"> ${anneeEnCours}</span>.`;
 
